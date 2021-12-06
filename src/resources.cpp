@@ -18,7 +18,7 @@ void Model::load(const std::filesystem::path& filepath, Resources& resources) {
     config.triangulate = true;
     tinyobj::ObjReader reader{};
 
-    if (!reader.ParseFromFile(filepath, config)) {
+    if (!reader.ParseFromFile(filepath.string(), config)) {
         std::string error_message{"failed to load model at path: " +
                                   filepath.string()};
         if (!reader.Error().empty()) {
@@ -111,27 +111,27 @@ Material::Material(const std::filesystem::path& texture_root,
     m_metalness = material.metallic;
     if (!material.diffuse_texname.empty()) {
         m_textures[enum_integer(TextureMap::Diffuse)] =
-            texture_root / material.diffuse_texname;
+            (texture_root / material.diffuse_texname).string();
     }
     if (!material.normal_texname.empty()) {
         m_textures[enum_integer(TextureMap::Normal)] =
-            texture_root / material.normal_texname;
+            (texture_root / material.normal_texname).string();
     }
     if (!material.metallic_texname.empty()) {
         m_textures[enum_integer(TextureMap::Metallic)] =
-            texture_root / material.metallic_texname;
+            (texture_root / material.metallic_texname).string();
     }
     if (!material.roughness_texname.empty()) {
         m_textures[enum_integer(TextureMap::Roughness)] =
-            texture_root / material.roughness_texname;
+            (texture_root / material.roughness_texname).string();
     }
     if (!material.ambient_texname.empty()) {
         m_textures[enum_integer(TextureMap::Ambient)] =
-            texture_root / material.ambient_texname;
+            (texture_root / material.ambient_texname).string();
     }
     if (!material.emissive_texname.empty()) {
         m_textures[enum_integer(TextureMap::Emission)] =
-            texture_root / material.emissive_texname;
+            (texture_root / material.emissive_texname).string();
     }
 };
 

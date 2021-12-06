@@ -1,5 +1,7 @@
 #include "vk/swapchain.h"
 
+#include <algorithm>
+
 namespace vks {
 Swapchain::Swapchain(Device& device, RenderPass& renderPass) : device{device} {
     createSwapchain();
@@ -32,10 +34,12 @@ void Swapchain::createSwapchain() {
     auto present_mode = device.info().present_mode;
 
     m_extent = capabilities.currentExtent;
-    std::clamp(m_extent.height, capabilities.minImageExtent.height,
-               capabilities.maxImageExtent.height);
-    std::clamp(m_extent.width, capabilities.minImageExtent.width,
-               capabilities.maxImageExtent.width);
+    m_extent.height =
+        std::clamp(m_extent.height, capabilities.minImageExtent.height,
+                   capabilities.maxImageExtent.height);
+    m_extent.width =
+        std::clamp(m_extent.width, capabilities.minImageExtent.width,
+                   capabilities.maxImageExtent.width);
 
     std::array<uint32_t, 2> queue_families{
         device.info().queue_families.graphics,
